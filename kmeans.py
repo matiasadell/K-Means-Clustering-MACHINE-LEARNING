@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar 26 12:39:36 2019
-
-@author: juangabriel
-"""
-
 # K-Means
 
 # Importar las librerías
@@ -15,24 +7,21 @@ import pandas as pd
 
 # Cargamos los datos con pandas
 dataset = pd.read_csv("Mall_Customers.csv")
-X = dataset.iloc[:, [3,4]].values       # De todas las filas las columna 3 y 4
+X = dataset.iloc[:, [3,4]].values      
 
 # Método del codo para averiguar el número óptimo de clusters
 from sklearn.cluster import KMeans
 wcss = []
-for i in range(1, 11):      # Se crea un bucre probando de 1 cluster hasta 10 cluster
+for i in range(1, 11):     
     kmeans = KMeans(n_clusters = i, init = "k-means++", max_iter = 300, n_init = 10, random_state = 0)
-    # "k-means++" significa inicializacion no aleatoria
-    # max_iter = 300 significa que despues de 300 cambios de clustering para
-    # n_init = 10 significa inicializacion aleatoria
     kmeans.fit(X)
-    wcss.append(kmeans.inertia_)        # inertia es un parametro que trae la suma de los cuadrados de las distancias, ycon el append las mete en la lista
+    wcss.append(kmeans.inertia_)     
 
 plt.plot(range(1,11), wcss)
 plt.title("Método del codo")
 plt.xlabel("Número de Clusters")
 plt.ylabel("WCSS(k)")
-plt.show()      # El codo del grafico nos muestra la cantidad recomendable de clostering que se necesitan, en este caso es 5
+plt.show()     
 
 
 # Aplicar el método de k-means para segmentar el data set
@@ -46,7 +35,7 @@ plt.scatter(X[y_kmeans == 1, 0], X[y_kmeans == 1, 1], s = 100, c = "blue", label
 plt.scatter(X[y_kmeans == 2, 0], X[y_kmeans == 2, 1], s = 100, c = "green", label = "Objetivo")
 plt.scatter(X[y_kmeans == 3, 0], X[y_kmeans == 3, 1], s = 100, c = "cyan", label = "Descuidados")
 plt.scatter(X[y_kmeans == 4, 0], X[y_kmeans == 4, 1], s = 100, c = "magenta", label = "Conservadores")
-plt.scatter(kmeans.cluster_centers_[:,0], kmeans.cluster_centers_[:,1], s = 300, c = "yellow", label = "Baricentros")       # s significa tamaño
+plt.scatter(kmeans.cluster_centers_[:,0], kmeans.cluster_centers_[:,1], s = 300, c = "yellow", label = "Baricentros")     
 plt.title("Cluster de clientes")
 plt.xlabel("Ingresos anuales (en miles de $)")
 plt.ylabel("Puntuación de Gastos (1-100)")
